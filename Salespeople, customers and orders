@@ -1,0 +1,125 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| databasename       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| person             |
+| salespeople        |
+| sys                |
+| testdb             |
+| vicky              |
++--------------------+
+9 rows in set (0.50 sec)
+
+mysql> use salespeople;
+Database changed
+mysql> show tables;
++-----------------------+
+| Tables_in_salespeople |
++-----------------------+
+| customers             |
+| orders                |
+| salespeople           |
++-----------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| snum | sname   | city      | comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | .12  |
+| 1002 | Serres  | Sanjose   | .13  |
+| 1003 | Axelrod | Newyork   | .10  |
+| 1004 | Motika  | London    | .11  |
+| 1007 | Rifkin  | Barcelona | .15  |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+----------+---------+------+
+| CNUM | CNAME    | CITY    | SNUM |
++------+----------+---------+------+
+| 2001 | Hoffman  | London  | 1001 |
+| 2002 | Giovanni | Rome    | 1003 |
+| 2003 | Liu      | Sanjose | 1002 |
+| 2004 | Grass    | Berlin  | 1002 |
+| 2006 | Clemens  | London  | 1001 |
+| 2007 | Pereira  | Rome    | 1004 |
+| 2008 | Cisneros | Sanjose | 1007 |
++------+----------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| ONUM | amt     | ODATE      | CNUM | SNUM |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 | 4273.00 | 1990-10-05 | 2006 | 1001 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from salespeople where sname like 'a%';
++------+---------+---------+------+
+| snum | sname   | city    | comm |
++------+---------+---------+------+
+| 1003 | Axelrod | Newyork | .10  |
++------+---------+---------+------+
+1 row in set (0.00 sec)
+
+mysql> select salespeople.sname , orders.amt from salespeople inner join orders on salespeople.snum = orders.snum where amt >= 2000;
++--------+---------+
+| sname  | amt     |
++--------+---------+
+| Serres | 5160.45 |
+| Peel   | 4273.00 |
+| Peel   | 9891.88 |
++--------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select * from salespeople where city = 'Newyork';
++------+---------+---------+------+
+| snum | sname   | city    | comm |
++------+---------+---------+------+
+| 1003 | Axelrod | Newyork | .10  |
++------+---------+---------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from salespeople where city = 'London';
++------+--------+--------+------+
+| snum | sname  | city   | comm |
++------+--------+--------+------+
+| 1001 | Peel   | London | .12  |
+| 1004 | Motika | London | .11  |
++------+--------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from salespeople where city = 'Paris';
+Empty set (0.00 sec)
+
+mysql> select salespeople.sname , orders.ODATE from salespeople inner join orders on salespeople.snum = orders.snum order by sname;
++---------+------------+
+| sname   | ODATE      |
++---------+------------+
+| Axelrod | 1990-10-04 |
+| Motika  | 1990-10-03 |
+| Peel    | 1990-10-03 |
+| Peel    | 1990-10-05 |
+| Peel    | 1990-10-06 |
+| Rifkin  | 1990-10-03 |
+| Rifkin  | 1990-10-03 |
+| Serres  | 1990-10-03 |
+| Serres  | 1990-10-04 |
+| Serres  | 1990-10-06 |
++---------+------------+
+10 rows in set (0.00 sec)
