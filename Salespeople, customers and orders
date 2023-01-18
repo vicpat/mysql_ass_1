@@ -95,6 +95,14 @@ mysql> select * from salespeople where city = 'Newyork';
 +------+---------+---------+------+
 1 row in set (0.00 sec)
 
+mysql> select count(sname) , city from salespeople where city = 'Newyork';
++--------------+---------+
+| count(sname) | city    |
++--------------+---------+
+|            1 | Newyork |
++--------------+---------+
+1 row in set (0.00 sec)
+
 mysql> select * from salespeople where city = 'London';
 +------+--------+--------+------+
 | snum | sname  | city   | comm |
